@@ -14,10 +14,10 @@ WORKDIR /usr/share/nginx/html
 
 RUN rm -rf ./*
 
-# Copia os arquivos gerados no build do Angular 19 (pasta browser)
-COPY --from=builder /app/dist/landing_page_angular/browser ./
+# Copia os ficheiros gerados pelo Angular 19 para a pasta do NGINX
+COPY --from=builder /app/dist/landing-app/browser ./
 
-# Configuração do NGINX escutando na porta 3006 com suporte a rotas SPA
+# Configuração do NGINX para escutar na porta 3006 com suporte a rotas SPA
 RUN echo 'server { \
     listen 3006; \
     location / { \
