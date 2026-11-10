@@ -17,7 +17,7 @@ export class LeadService {
   private http = inject(HttpClient);
 
   // Utiliza a URL de forma dinâmica com base no ambiente (dev ou prod)
-  private apiUrl = `${environment.apiUrl}/leads`;
+  private apiUrl = `${environment.apiUrl}`;
 
   createLead(lead: Lead): Observable<any> {
     return this.http.post<any>(this.apiUrl, lead);
