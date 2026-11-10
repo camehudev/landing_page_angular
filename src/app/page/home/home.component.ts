@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Lead, LeadService } from '../../service/lead.service';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,19 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+
+  private leadService = inject(LeadService);
+
+  lead: Lead = {
+    name: '',
+    email: '',
+    whatsapp: '',
+    business_type: ''
+  };
+
+  status: 'idle' | 'loading' | 'done' | 'error' = 'idle';
+  errors: Record<string, string> = {};
+
   // Mockup do PDV
   pdvItems = [
     { name: "Caderno 96 fls", qty: 2, price: 18.9 },
@@ -26,20 +40,9 @@ export class HomeComponent {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
   }
 
-  // Estado do Formulário de Leads
-  lead = {
-    name: '',
-    email: '',
-    whatsapp: '',
-    business_type: ''
-  };
-
-  status: 'idle' | 'loading' | 'done' | 'error' = 'idle';
-  errors: Record<string, string> = {};
-
-  onSubmit() {
+onSubmit() {
     this.errors = {};
-    
+
     if (!this.lead.name || this.lead.name.trim().length < 2) {
       this.errors['name'] = 'Informe seu nome';
     }
@@ -57,10 +60,16 @@ export class HomeComponent {
 
     this.status = 'loading';
 
-    // Simulação de envio
-    setTimeout(() => {
-      this.status = 'done';
-    }, 1000);
+    // Envio real para a API FastAPI
+    this.leadService.createLead(this.lead).subscribe({
+      next: () => {
+        this.status = 'done';
+      },
+      error: (err) => {
+        console.error('Erro ao enviar lead:', err);
+        this.status = 'error';
+      }
+    });
   }
 
   currentYear = new Date().getFullYear();
