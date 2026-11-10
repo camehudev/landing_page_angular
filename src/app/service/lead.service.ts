@@ -17,6 +17,7 @@ export class LeadService {
   private http = inject(HttpClient);
 
   createLead(lead: Lead): Observable<any> {
+    console.log(`${environment.apiUrl}/leads`)
     return this.http.post<any>(`${environment.apiUrl}/leads`, lead);
   }
 }
