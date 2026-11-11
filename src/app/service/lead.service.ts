@@ -14,14 +14,15 @@ export interface Lead {
   providedIn: 'root'
 })
 export class LeadService {
-  private https = inject(HttpClient);
+  private http = inject(HttpClient);
 
   createLead(lead: Lead): Observable<any> {
     console.log(`${environment.apiUrl}/leads`)
-    return this.https.post<any>(`${environment.apiUrl}/leads`, lead);
+    return this.http.post<any>(`${environment.apiUrl}/leads`, lead);
   }
 
   listLead(): Observable<any> {
-    return this.https.get(`${environment.apiUrl}/leads`);
+    console.log(`${environment.apiUrl}/leads`)
+    return this.http.get(`${environment.apiUrl}/leads`);
   }
 }
