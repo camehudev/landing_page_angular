@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Lead, LeadService } from '../../service/lead.service';
@@ -10,7 +10,7 @@ import { Lead, LeadService } from '../../service/lead.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit{
 
   private leadService = inject(LeadService);
 
@@ -73,4 +73,22 @@ onSubmit() {
   }
 
   currentYear = new Date().getFullYear();
+
+  ngOnInit(): void{
+
+    this.leadService.listLead().subscribe({
+       next: (response) => {
+        console.log(response)
+      },
+      error: (err) => {
+        console.error('Erro ao enviar lead:', err);
+        this.status = 'error';
+      }
+    })
+   }
+
 }
+
+
+
+
