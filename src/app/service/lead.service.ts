@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 
 export interface Lead {
   name: string;
@@ -17,12 +17,10 @@ export class LeadService {
   private http = inject(HttpClient);
 
   createLead(lead: Lead): Observable<any> {
-    console.log(`${environment.apiUrl}`)
     return this.http.post<any>(`${environment.apiUrl}/leads`, lead);
   }
 
   listLead(): Observable<any> {
-    console.log(`${environment.apiUrl}`)
     return this.http.get(`${environment.apiUrl}/leads`);
   }
 }

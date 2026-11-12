@@ -78,7 +78,6 @@ onSubmit() {
 
     this.leadService.listLead().subscribe({
        next: (response) => {
-        console.log(response)
       },
       error: (err) => {
         console.error('Erro ao enviar lead:', err);
